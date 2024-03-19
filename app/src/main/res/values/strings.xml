@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">signalscan</string>
+    <string name="scan">对扫防错</string>
+    <string name="scanning">正在扫码</string>
+    <string name="dw">定位</string>
+
+</resources>
