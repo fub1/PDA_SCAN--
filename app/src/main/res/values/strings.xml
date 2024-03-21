@@ -2,6 +2,10 @@
     <string name="app_name">signalscan</string>
     <string name="scan">对扫防错</string>
     <string name="scanning">正在扫码</string>
+    <string name="CMS_MAT_CODE">CMS物料代码</string>
+    <string name="CMS_MAT_Series">CMS序列号</string>
+    <string name="VDA_MAT_CODE">客户物料代码</string>
+    <string name="VDA_PKG_CODE">VDA包装标号</string>
     <string name="dw">定位</string>
 
 </resources>

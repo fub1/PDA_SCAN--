@@ -1,24 +1,30 @@
 package com.crtyiot.signalscan
-
+import androidx.activity.viewModels
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.annotation.RequiresApi
 import com.crtyiot.signalscan.ui.screen.ScanScreen
-import com.crtyiot.signalscan.ui.theme.SignalscanTheme
+import com.crtyiot.signalscan.ui.screen.ScanViewModel
+
 
 class MainActivity : ComponentActivity() {
+    // 实例化VM
+
+    private val scanViewModel by viewModels<ScanViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ScanScreen()
         }
     }
+
+
 }
 
