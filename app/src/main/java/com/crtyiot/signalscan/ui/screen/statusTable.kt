@@ -30,10 +30,7 @@ fun StatusDataGrid(viewModel: ScanViewModel) {
 
 
 
-    Box(
-        modifier = Modifier
-        .border(1.dp, MaterialTheme.colorScheme.background, MaterialTheme.shapes.small)
-    ) {
+    Box() {
         LazyVerticalGrid(columns = GridCells.Fixed(3)) {
             //表头
             items(headers) { header ->

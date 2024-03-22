@@ -17,6 +17,7 @@ class ScanViewModel : ViewModel() {
     val scanResultlist : StateFlow<List<String>> = _scanResultlist
     private val _scanstepindex = MutableStateFlow(0)
     val scanstepindex : StateFlow<Int> = _scanstepindex
+
     fun addScanData(data: String) {
         // 用于更新输入框的值
         //_scanData.value = data

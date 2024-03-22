@@ -2,9 +2,16 @@ package com.crtyiot.signalscan.ui.screen
 
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeGesturesPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -21,8 +28,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.crtyiot.signalscan.R
 import com.crtyiot.signalscan.ui.screen.inputField.CmsMatField
 import com.crtyiot.signalscan.ui.screen.inputField.VdaMatField
@@ -79,9 +88,11 @@ fun ScanScreen(viewModel: ScanViewModel) {
             ){
 
 
-                StatusDataGrid(viewModel = viewModel)
+                StatusCard(viewModel = viewModel)
 
-                Log.e("ScanViewModel", "c-scanning.value = $isScanning")
+                Spacer(Modifier.height(2.dp))
+
+                StatusDataGrid(viewModel = viewModel)
 
                 if (scanstepindex == 0 ) {
                     CmsMatField(viewModel = viewModel)
@@ -91,21 +102,44 @@ fun ScanScreen(viewModel: ScanViewModel) {
                     VdaPkgField(viewModel = viewModel)
                 }
 
-                if (scanstepindex == 3) {
-                    Button(onClick = { viewModel.submitScanData() }) {
-                        Text("Submit")
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally)
+                    ,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (scanstepindex == 3) {
+                        Button(
+                            onClick = { viewModel.submitScanData() },
+                            modifier = Modifier.width(IntrinsicSize.Max)
+                        ) {
+                            Text("提交")
+                        }
+
+                        Button(
+                            onClick = { viewModel.resetScanData() },
+                            modifier = Modifier.width(IntrinsicSize.Max)
+                        ) {
+                            Text("重置")
+                        }
+
+
+                    }
+
+                    if (scanstepindex < 3) {
+
+                        Button(
+                            onClick = { viewModel.resetScanData() },
+                            modifier = Modifier.fillMaxWidth(0.5f).width(IntrinsicSize.Max)
+                        ) {
+                            Text("重置")
+                        }
 
                     }
                 }
-
-                Button(onClick = {
-                    viewModel.resetScanData()
-                }) {
-                    Text("Reset")
-                }
-
-
-
             }
 
         }
