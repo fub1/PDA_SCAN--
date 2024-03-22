@@ -1,48 +1,57 @@
 package com.crtyiot.signalscan.ui.screen
 
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.asStateFlow
 
 // 注册_scanData作为state，用于存储扫描数据
 class ScanViewModel : ViewModel() {
     // 定义4个输入框的state1-4
-    private val _scanDatalist = List(4) { MutableStateFlow<String>("") }
-    val scanDatalist = _scanDatalist.map { it.asStateFlow() }
-    private val _scanstatus = MutableStateFlow<Boolean>(true)
-    val scanstatus = _scanstatus.asStateFlow()
-
-    // 定义扫码步骤
-    private val _scanStep = MutableStateFlow<Int>(1)
-    val scanStep = _scanStep.asStateFlow()
-
+    private val _scanData = MutableStateFlow("")
+    val scanData : StateFlow<String> = _scanData
+    // 定义扫码状态
+    private val _scanning = MutableStateFlow(true)
+    val scanning : MutableStateFlow<Boolean> = _scanning
+    // 扫码结果列表、4个元素
+    private val _scanResultlist = MutableStateFlow<List<String>>(listOf(" ",""," ",""))
+    val scanResultlist : StateFlow<List<String>> = _scanResultlist
+    private val _scanstepindex = MutableStateFlow(0)
+    val scanstepindex : StateFlow<Int> = _scanstepindex
     fun addScanData(data: String) {
-        // 索引从0开始
-        val index = _scanStep.value - 1
-        // 向当前输入框对应的state中赋值
-        if (scanstatus.value) {
-            _scanDatalist[index].value = data
+        // 用于更新输入框的值
+        //_scanData.value = data
+        // 测试用，用于反转扫码状态
+        // scanning.value = !(scanning.value)
+        // 用于写入扫码结果列表表格
+        val tmpScanList = _scanResultlist.value.toMutableList()
+        tmpScanList[_scanstepindex.value] = data
+        _scanResultlist.value = tmpScanList
+        _scanstepindex.value += 1
+        if (_scanstepindex.value == 3) {
+            _scanning.value = false
         }
 
-        // 更新扫描步骤
-        if (_scanStep.value == 4) {
-            // 如果当前是第4步，重置为第1步
-            _scanStep.value = 1
-            // 更新扫描状态为false
-            _scanstatus.value = false
-        } else {
-            // 否则，进入下一步
-            _scanStep.value += 1
-        }
+
+
+
+
+
+
     }
+
 
     fun resetScanData() {
         // 重置所有输入框的值
-        _scanDatalist.forEach { it.value = "" }
-        // 重置扫描步骤
-        _scanStep.value = 1
-        // 重置扫描状态
-        _scanstatus.value = true
+        _scanData.value = ""
+        _scanResultlist.value = listOf(" ",""," ","")
+        _scanstepindex.value = 0
+        scanning.value = true
+    }
+
+    fun submitScanData() {
+        _scanData.value = ""
+        _scanResultlist.value = listOf(" ",""," ","")
+        _scanstepindex.value = 0
+        scanning.value = true
     }
 }
