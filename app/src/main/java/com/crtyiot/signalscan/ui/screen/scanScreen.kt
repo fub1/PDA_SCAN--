@@ -90,8 +90,10 @@ fun ScanScreen(viewModel: ScanViewModel) {
 
             ){
 
-
+                // 扫码进度条
                 StatusCard(viewModel = viewModel)
+                // 扫描数据列表
+                ScanDataList(viewModel = viewModel)
 
                 Spacer(Modifier.height(2.dp))
 
@@ -159,6 +161,8 @@ fun ScanScreen(viewModel: ScanViewModel) {
                             Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
                             Text("重扫当前步骤")
                         }
+
+
 
 
 

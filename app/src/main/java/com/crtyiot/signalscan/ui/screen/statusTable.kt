@@ -63,11 +63,3 @@ fun StatusDataGrid(viewModel: ScanViewModel) {
     }
 }
 
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewStatusDataGrid() {
-    StatusDataGrid(viewModel = ScanViewModel())
-}
