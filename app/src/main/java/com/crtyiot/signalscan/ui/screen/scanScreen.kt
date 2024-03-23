@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.safeGesturesPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +38,7 @@ import com.crtyiot.signalscan.R
 import com.crtyiot.signalscan.ui.screen.inputField.CmsMatField
 import com.crtyiot.signalscan.ui.screen.inputField.VdaMatField
 import com.crtyiot.signalscan.ui.screen.inputField.VdaPkgField
+import androidx.compose.material3.Icon
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,7 +105,7 @@ fun ScanScreen(viewModel: ScanViewModel) {
                     VdaPkgField(viewModel = viewModel)
                 }
 
-
+                // 按钮组，根据业务场景，常用的按钮会优先放置在右侧
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -116,6 +119,7 @@ fun ScanScreen(viewModel: ScanViewModel) {
                             onClick = { viewModel.submitScanData() },
                             modifier = Modifier.width(IntrinsicSize.Max)
                         ) {
+                            Icon(imageVector = Icons.Filled.Done, contentDescription = null)
                             Text("提交")
                         }
 
@@ -123,7 +127,16 @@ fun ScanScreen(viewModel: ScanViewModel) {
                             onClick = { viewModel.resetScanData() },
                             modifier = Modifier.width(IntrinsicSize.Max)
                         ) {
+                            Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
                             Text("重置")
+                        }
+
+                        Button(
+                            onClick = { viewModel.backScanData() },
+                            modifier = Modifier.width(IntrinsicSize.Max)
+                        ) {
+                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                            Text("回退")
                         }
 
 
@@ -133,10 +146,22 @@ fun ScanScreen(viewModel: ScanViewModel) {
 
                         Button(
                             onClick = { viewModel.resetScanData() },
-                            modifier = Modifier.fillMaxWidth(0.5f).width(IntrinsicSize.Max)
+                            modifier = Modifier.width(IntrinsicSize.Max)
                         ) {
-                            Text("重置")
+                            Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
+                            Text("重置本组数据")
                         }
+
+                        Button(
+                            onClick = { viewModel.backScanData() },
+                            modifier = Modifier.width(IntrinsicSize.Max)
+                        ) {
+                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                            Text("重扫当前步骤")
+                        }
+
+
+
 
                     }
                 }

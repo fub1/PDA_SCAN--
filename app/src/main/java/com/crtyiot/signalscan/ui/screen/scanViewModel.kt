@@ -48,6 +48,16 @@ class ScanViewModel : ViewModel() {
         _scanstepindex.value = 0
         scanning.value = true
     }
+    // 用于回退扫码，扫错条码时的回退操作
+    fun backScanData() {
+        if (_scanstepindex.value > 0) {
+            _scanstepindex.value -= 1
+            val tmpScanList = _scanResultlist.value.toMutableList()
+            tmpScanList[_scanstepindex.value] = " "
+            _scanResultlist.value = tmpScanList
+            _scanning.value = true
+        }
+    }
 
     fun submitScanData() {
         _scanData.value = ""
