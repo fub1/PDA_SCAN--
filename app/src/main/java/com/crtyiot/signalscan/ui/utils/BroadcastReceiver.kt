@@ -8,9 +8,9 @@ import android.content.IntentFilter
 class ScanReceiver(private val onScanReceived: (String) -> Unit) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         // for Seuic settings
-        // val scanData = intent?.getStringExtra("eee")
+        val scanData = intent?.getStringExtra("eee")
         //for zebra pda datawedge
-        val scanData = intent?.getStringExtra("com.symbol.datawedge.data_string")
+        // val scanData = intent?.getStringExtra("com.symbol.datawedge.data_string")
         scanData?.let { onScanReceived(it) }
     }
 

@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.crtyiot.signalscan.R
 
 
 @Composable
-fun StatusDataGrid(viewModel: ScanViewModel) {
+fun StatusDataGrid() {
+    val viewModel: ScanViewModel = viewModel(factory = ScanViewModel.Factory)
     val headers = listOf(
         stringResource(id = R.string.CMS_MAT_CODE),
         stringResource(id = R.string.VDA_MAT_CODE),

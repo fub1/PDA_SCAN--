@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlin.math.roundToLong
 
 
 @Composable
-fun StatusCard(viewModel: ScanViewModel) {
+fun StatusCard() {
+    val viewModel: ScanViewModel = viewModel(factory = ScanViewModel.Factory)
     val scaningProcess = ((viewModel.scanstepindex.collectAsState().value).toFloat())/3
     var scanProcesspercent = String.format("%.1f", scaningProcess*100)
 

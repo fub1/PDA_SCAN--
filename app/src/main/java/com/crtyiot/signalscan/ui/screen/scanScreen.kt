@@ -39,13 +39,12 @@ import com.crtyiot.signalscan.ui.screen.inputField.CmsMatField
 import com.crtyiot.signalscan.ui.screen.inputField.VdaMatField
 import com.crtyiot.signalscan.ui.screen.inputField.VdaPkgField
 import androidx.compose.material3.Icon
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScanScreen(viewModel: ScanViewModel) {
-    val isScanning = viewModel.scanning.collectAsState().value
-    val scanstepindex by viewModel.scanstepindex.collectAsState()
+fun ScanScreen() {
 
     Surface(modifier = Modifier
         .fillMaxWidth()) {
@@ -91,84 +90,24 @@ fun ScanScreen(viewModel: ScanViewModel) {
             ){
 
                 // 扫码进度条
-                StatusCard(viewModel = viewModel)
-                // 扫描数据列表
-                ScanDataList(viewModel = viewModel)
+                StatusCard()
+
 
                 Spacer(Modifier.height(2.dp))
 
-                StatusDataGrid(viewModel = viewModel)
+                StatusDataGrid()
 
-                if (scanstepindex == 0 ) {
-                    CmsMatField(viewModel = viewModel)
-                } else if (scanstepindex == 1) {
-                    VdaMatField(viewModel = viewModel)
-                } else if (scanstepindex == 2) {
-                    VdaPkgField(viewModel = viewModel)
-                }
+                StepButton()
 
-                // 按钮组，根据业务场景，常用的按钮会优先放置在右侧
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.CenterHorizontally)
-                    ,
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    if (scanstepindex == 3) {
-                        Button(
-                            onClick = { viewModel.submitScanData() },
-                            modifier = Modifier.width(IntrinsicSize.Max)
-                        ) {
-                            Icon(imageVector = Icons.Filled.Done, contentDescription = null)
-                            Text("提交")
-                        }
-
-                        Button(
-                            onClick = { viewModel.resetScanData() },
-                            modifier = Modifier.width(IntrinsicSize.Max)
-                        ) {
-                            Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
-                            Text("重置")
-                        }
-
-                        Button(
-                            onClick = { viewModel.backScanData() },
-                            modifier = Modifier.width(IntrinsicSize.Max)
-                        ) {
-                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
-                            Text("回退")
-                        }
-
-
-                    }
-
-                    if (scanstepindex < 3) {
-
-                        Button(
-                            onClick = { viewModel.resetScanData() },
-                            modifier = Modifier.width(IntrinsicSize.Max)
-                        ) {
-                            Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
-                            Text("重置本组数据")
-                        }
-
-                        Button(
-                            onClick = { viewModel.backScanData() },
-                            modifier = Modifier.width(IntrinsicSize.Max)
-                        ) {
-                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
-                            Text("重扫当前步骤")
-                        }
+                ScanDataList()
 
 
 
 
 
 
-                    }
-                }
+
+
             }
 
         }
@@ -177,3 +116,70 @@ fun ScanScreen(viewModel: ScanViewModel) {
 
 }
 
+@Composable
+fun StepButton() {
+    val viewModel: ScanViewModel = viewModel(factory = ScanViewModel.Factory)
+    val scanstepindex by viewModel.scanstepindex.collectAsState()
+
+    if (scanstepindex == 0) {
+        CmsMatField()
+    } else if (scanstepindex == 1) {
+        VdaMatField()
+    } else if (scanstepindex == 2) {
+        VdaPkgField()
+    }
+
+    // 按钮组，根据业务场景，常用的按钮会优先放置在右侧
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (scanstepindex == 3) {
+            Button(
+                onClick = { viewModel.submitScanData() },
+                modifier = Modifier.width(IntrinsicSize.Max)
+            ) {
+                Icon(imageVector = Icons.Filled.Done, contentDescription = null)
+                Text("提交")
+            }
+
+            Button(
+                onClick = { viewModel.resetScanData() },
+                modifier = Modifier.width(IntrinsicSize.Max)
+            ) {
+                Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
+                Text("重置")
+            }
+
+            Button(
+                onClick = { viewModel.backScanData() },
+                modifier = Modifier.width(IntrinsicSize.Max)
+            ) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                Text("回退")
+            }
+
+
+        }
+
+        if (scanstepindex < 3) {
+
+            Button(
+                onClick = { viewModel.resetScanData() },
+                modifier = Modifier.width(IntrinsicSize.Max)
+            ) {
+                Icon(imageVector = Icons.Filled.Clear, contentDescription = null)
+                Text("重置本组数据")
+            }
+
+            Button(
+                onClick = { viewModel.backScanData() },
+                modifier = Modifier.width(IntrinsicSize.Max)
+            ) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                Text("重扫当前步骤")
+            }
+
+        }
+    }
+}

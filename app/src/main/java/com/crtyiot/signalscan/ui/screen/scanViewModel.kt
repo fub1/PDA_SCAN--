@@ -3,6 +3,10 @@ package com.crtyiot.signalscan.ui.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.crtyiot.signalscan.MainApplication
 import com.crtyiot.signalscan.data.repository.ScanDataRepository
 import com.crtyiot.signalscan.data.source.local.model.ScanData
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -94,17 +98,13 @@ class ScanViewModel(private val repository: ScanDataRepository) : ViewModel() {
         }
     }
 
-
-
-}
-
-// 用于创建ViewModel实例。避免项目无法启动
-class ScanViewModelFactory(private val repository: ScanDataRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ScanViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ScanViewModel(repository) as T
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as MainApplication)
+                val scanDataRepository = application.container.scanDataRepository
+                ScanViewModel(scanDataRepository)
+            }
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
