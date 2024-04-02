@@ -31,10 +31,14 @@ fun CmsMatField() {
         ScanReceiver.register(context_barcode) { data ->
             viewModel.addScanData(data)
             // 扫描后立即销毁receiver
-            receiver.value?.let {
-                context_barcode.unregisterReceiver(it)
-                receiver.value = null
+            if (viewModel.errormsg.value == null) {
+                receiver.value?.let {
+                    context_barcode.unregisterReceiver(it)
+                    receiver.value = null
+                }
+
             }
+
         }
     }
 

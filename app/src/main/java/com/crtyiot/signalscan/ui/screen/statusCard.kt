@@ -12,7 +12,9 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +27,7 @@ fun StatusCard() {
     val viewModel: ScanViewModel = viewModel(factory = ScanViewModel.Factory)
     val scaningProcess = ((viewModel.scanstepindex.collectAsState().value).toFloat())/3
     var scanProcesspercent = String.format("%.1f", scaningProcess*100)
+    val errormsg by viewModel.errormsg.collectAsState()
 
     Card {
 
@@ -35,6 +38,9 @@ fun StatusCard() {
             .padding(4.dp)
      )
         Spacer(Modifier.height(1.dp))
+
+
+
         Text(
             text = "Scanning Process  $scanProcesspercent %",
             style = MaterialTheme.typography.bodyMedium,
@@ -42,6 +48,20 @@ fun StatusCard() {
             modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth()
+
         )
+        if (errormsg != null) {
+            Text(
+                text = errormsg!!,
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Red,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth()
+            )
+        }
+
+
     }
 }
